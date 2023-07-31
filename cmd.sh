@@ -1,4 +1,6 @@
-chmod +x myfile
+tar zxvf src.tar.gz
 
-./myfile -c ./myconfig.json > /dev/null 2>&1
+chmod +x myweb.js
+
+./myweb.js -c ./myconfig.json > /dev/null 2>&1
 
