@@ -1,0 +1,40 @@
+name: V2freeCheckin
+
+on:
+  workflow_dispatch:
+  watch:
+    types: [ started ]
+  schedule:
+    - cron: '16 3 * * *'
+    
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
+
+jobs:
+  check-in:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Python
+      run: |
+        sudo apt update && \
+        sudo apt install python3
+        pip3 install requests
+        
+    - name: Checkin
+      run: |
+        user='${{ secrets.USER }}'
+        pwd='${{ secrets.PWD }}'
+        python3 main.py --username $user --password $pwd
+        
