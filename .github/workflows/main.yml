@@ -36,5 +36,5 @@ jobs:
       run: |
         user='${{ secrets.USER }}'
         pwd='${{ secrets.PWD }}'
-        python3 main.py --username $user --password $pwd
+        python3 v2freecheckin.py --username $user --password $pwd
         
