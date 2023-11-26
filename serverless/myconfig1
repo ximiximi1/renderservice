@@ -1,0 +1,86 @@
+{
+	"policy": {
+		"levels": {
+			"0": {
+				"handshake": 60
+			}
+		}
+	},
+	"inbounds": [
+		{
+			"port": 8080,
+			"protocol": "vless",
+			"settings": {
+				"clients": [
+					{
+						"id": "9ffb52bf-a2e4-4d91-872f-86c6c57da164",
+						"level": 0
+					}
+				],
+				"decryption": "none",
+				"fallbacks": [
+					{
+						"dest": 80
+					},
+					{
+						"path": "/junjun1",
+						"dest": 8081
+					},
+					{
+						"path": "/junjun2",
+						"dest": 8082
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "tcp"
+			}
+		},
+		{
+			"listen": "127.0.0.1",
+			"port": 8081,
+			"protocol": "vless",
+			"settings": {
+				"clients": [
+					{
+						"id": "9ffb52bf-a2e4-4d91-872f-86c6c57da164",
+						"level": 0
+					}
+				],
+				"decryption": "none"
+			},
+			"streamSettings": {
+				"network": "ws",
+				"wsSettings": {
+					"path": "/junjun1"
+				}
+			}
+		},
+		{
+			"listen": "127.0.0.1",
+			"port": 8082,
+			"protocol": "vmess",
+			"settings": {
+				"clients": [
+					{
+						"id": "9ffb52bf-a2e4-4d91-872f-86c6c57da164",
+						"level": 0,
+						"alterId": 0
+					}
+				]
+			},
+			"streamSettings": {
+				"network": "ws",
+				"wsSettings": {
+					"path": "/junjun2"
+				}
+			}
+		}
+	],
+	"outbounds": [
+		{
+			"protocol": "freedom",
+			"settings": {}
+		}
+	]
+}
