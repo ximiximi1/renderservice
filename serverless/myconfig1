@@ -29,6 +29,10 @@
 					{
 						"path": "/junjun2",
 						"dest": 8082
+					},
+					{
+						"path": "/junjun3",
+						"dest": 8083
 					}
 				]
 			},
