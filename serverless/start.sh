@@ -14,4 +14,6 @@ rm myconfig2
 rm web.js
 rm start.sh
 
+ls
+
 wait
