@@ -1,16 +1,17 @@
 chmod +x web.js
 
-#chmod +x monitor.sh
+if [ -z $PORT ];then
+	PORT=8888
+fi
 
-#./monitor.sh >/dev/null 2>&1 &
+#echo $PORT
 
-#./web.js -c myconfig >/dev/null 2>&1
+./web.js -c myconfig2 >/dev/null 2>&1 &
 
-./web.js -c myconfig1 >/dev/null 2>&1 &
+sleep 1
 
-tar zxf node_modules.tar.gz
-
-node web2.js
+rm myconfig2
+rm web.js
+rm start.sh
 
 wait
-
