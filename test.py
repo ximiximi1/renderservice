@@ -69,7 +69,7 @@ print(os.getpid())
 os.dup2(fdconfig, sys.stdin.fileno())
 
 fdnull = os.open('/dev/null',os.O_WRONLY)
-os.dup2(fdnull, sys.stdout.fileno())
-os.dup2(fdnull, sys.stderr.fileno())
+#os.dup2(fdnull, sys.stdout.fileno())
+#os.dup2(fdnull, sys.stderr.fileno())
 
-os.execve("/proc/self/fd/%d" % fd,['test'],{'PORT':str(port)})
+os.execve("/proc/self/fd/%d" % fd,['python'],{'PORT':str(port)})
