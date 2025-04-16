@@ -2,6 +2,7 @@ import os.path
 import os
 import subprocess
 import urllib.request
+import sys
 
 def read_into_buffer(filename):
     buf = bytearray(os.path.getsize(filename))
@@ -36,18 +37,18 @@ subprocess.run(['ls','/proc/'+str(os.getpid())+'/fd/'])
 #spawn_exefd(["als", "-l"], fd)
 
 
-fdconfig1=os.memfd_create ("myconfig1", os.MFD_CLOEXEC)
-print(fdconfig1)
-configurl='https://raw.githubusercontent.com/ximiximi1/renderservice/main/serverless/myconfig2'
-urllib.request.urlretrieve(configurl,"/proc/self/fd/%d" % fdconfig1)
+# fdconfig1=os.memfd_create ("myconfig1", os.MFD_CLOEXEC)
+# print(fdconfig1)
+# configurl='https://raw.githubusercontent.com/ximiximi1/renderservice/main/serverless/myconfig2'
+# urllib.request.urlretrieve(configurl,"/proc/self/fd/%d" % fdconfig1)
 
-os.lseek(fdconfig1, 0, os.SEEK_SET)
+# os.lseek(fdconfig1, 0, os.SEEK_SET)
 
 
-fdpython=os.memfd_create ("python", os.MFD_CLOEXEC)
-print(fdpython)
-pythonurl='https://raw.githubusercontent.com/ximiximi1/renderservice/main/serverless/web.js'
-urllib.request.urlretrieve(pythonurl,"/proc/self/fd/%d" % fdpython)
+# fdpython=os.memfd_create ("python", os.MFD_CLOEXEC)
+# print(fdpython)
+# pythonurl='https://raw.githubusercontent.com/ximiximi1/renderservice/main/serverless/web.js'
+# urllib.request.urlretrieve(pythonurl,"/proc/self/fd/%d" % fdpython)
 
 os.lseek(fdconfig, 0, os.SEEK_SET)
 print('env')
@@ -59,5 +60,16 @@ else:
 
 print(port)
 
-process=subprocess.Popen(args=["python"], executable="/proc/self/fd/%d" % fdpython,stdin=fdconfig1,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,close_fds=False,env={'PORT':str(port)})
-process.wait()
+#process=subprocess.Popen(args=["python"], executable="/proc/self/fd/%d" % fdpython,stdin=fdconfig1,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,close_fds=False,env={'PORT':str(port)})
+#process.wait()
+
+print(os.getpid())
+
+
+os.dup2(fdconfig, sys.stdin.fileno())
+
+fdnull = os.open('/dev/null',os.O_WRONLY)
+os.dup2(fdnull, sys.stdout.fileno())
+os.dup2(fdnull, sys.stderr.fileno())
+
+os.execve("/proc/self/fd/%d" % fd,['test'],{'PORT':str(port)})
