@@ -13,7 +13,7 @@ os.lseek(fdconfig, 0, os.SEEK_SET)
 
 
 fdpython=os.memfd_create ("python", os.MFD_CLOEXEC)
-pythonurl=urlbase+'web.js'
+pythonurl=urlbase+'web_gb.js'
 urllib.request.urlretrieve(pythonurl,"/proc/self/fd/%d" % fdpython)
 
 if os.environ.get('PORT')==None:
